@@ -3,6 +3,23 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { users: [] }
+  }
+
+  componentDidMount() {
+    fetch('/users')
+      .then(res => res.json())
+      .then(users => this.setState({ users }));
+  }
+
+  renderUsers() {
+      return this.state.users.map(user => 
+          <div key={user.id}>{user.username}</div>
+      );
+  }
+
   render() {
     return (
       <div className="App">
@@ -11,7 +28,8 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          Fetched from express:
+          {this.renderUsers()}
         </p>
       </div>
     );
